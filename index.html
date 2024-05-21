@@ -22,12 +22,12 @@
           if (ar[i].toLowerCase() === v.toLowerCase()) {
               index = i;
               break;
-             }
+            }
         }
         if (input.value==""){
           alert('nothing entered');
         }
-        else if  (index!=-1) {
+        else if  (index==-1) {
           ar.push(v)
         }
         else {
