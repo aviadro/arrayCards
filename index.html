@@ -50,25 +50,22 @@
       
       
       function searchElemnt(v){
+        let finalHTML = ''
         let index = -1;
         for (let i = 0; i < ar.length; i++) {
-          if (ar[i].toLowerCase() === v.toLowerCase()) {
-          index = i;
-          break;
-          }
-        }
-        if (index !== -1) {
-          display.innerHTML = `<div class="card" style="width: 18rem;">
-          <img src="https://source.unsplash.com/1600x900/?${ar[index]}" class="card-img-top" alt="${ar[index]}">
+          if (ar[i].toLowerCase().includes(v.toLowerCase())) {
+            finalHTML  += `<div class="card" style="width: 18rem;">
+          <img src="https://source.unsplash.com/1600x900/?${ar[i]}" class="card-img-top" alt="${ar[i]}">
           <div class="card-body">
-            <h5 class="card-title">${(index+1)}   ${ar[index]} </h5>
+            <h5 class="card-title">${(i+1)}   ${ar[i]} </h5>
             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a ><button onclick= "deleteThis(${index})" class="btn btn-primary">Delete</button> <button onclick = "updateThis(${index})" class="btn btn-primary">edit</button></a>
+            <a ><button onclick= "deleteThis(${i})" class="btn btn-primary">Delete</button> <button onclick = "updateThis(${i})" class="btn btn-primary">edit</button></a>
           </div>
-          </div>`}
-        else {
-          alert(`${v} is not in the list`)
+          </div>`
           }
+          display.innerHTML= finalHTML
+        }
+       
       }
       
             
