@@ -17,7 +17,17 @@
       let ar = ["jerusalem", "tel aviv", "new york", "barcelona"]
      
       function pushElement(v) {
-        if (!ar.includes(v) && input.value!='') {
+        let index = -1;
+        for (let i = 0; i < ar.length; i++) {
+          if (ar[i].toLowerCase() === v.toLowerCase()) {
+              index = i;
+              break;
+             }
+        }
+        if (input.value==""){
+          alert('nothing entered');
+        }
+        else if  (index!=-1) {
           ar.push(v)
         }
         else {
@@ -35,20 +45,27 @@
         }
       }
       function searchElemnt(v){
-        if (!ar.includes(v)){
-          alert(`${v} is not in the list`)
-        }
-        else {
-          display.innerHTML = `<div class="card" style="width: 18rem;">
-  <img src="https://source.unsplash.com/1600x900/?${ar[ar.indexOf(v)]}" class="card-img-top" alt="${ar[ar.indexOf(v)]}">
+        let index = -1;
+    for (let i = 0; i < ar.length; i++) {
+    if (ar[i].toLowerCase() === v.toLowerCase()) {
+        index = i;
+        break;
+    }
+}
+
+if (index !== -1) {
+  display.innerHTML = `<div class="card" style="width: 18rem;">
+  <img src="https://source.unsplash.com/1600x900/?${ar[index]}" class="card-img-top" alt="${ar[index]}">
   <div class="card-body">
-    <h5 class="card-title">${(ar.indexOf(v)+1)}   ${ar[ar.indexOf(v)]} </h5>
+    <h5 class="card-title">${(index+1)}   ${ar[index]} </h5>
     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a ><button onclick= "deleteThis(${ar.indexOf(v)})" class="btn btn-primary">Delete</button> <button onclick = "updateThis(${ar.indexOf(v)})" class="btn btn-primary">edit</button></a>
+    <a ><button onclick= "deleteThis(${index})" class="btn btn-primary">Delete</button> <button onclick = "updateThis(${index})" class="btn btn-primary">edit</button></a>
   </div>
-</div>`
-        }
-      }
+</div>`}
+ else {
+  alert(`${v} is not in the list`)
+}
+       }
       
       elementHTML()
       function elementHTML(){
