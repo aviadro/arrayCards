@@ -44,8 +44,9 @@
       function pushElement(v, d, s, i) {
         let index = -1;
         for (let i = 0; i < destinations.length; i++) {
+          console.log (i)      
+
           const desti = destinations[i].name
-          console.log (desti)      
           if (desti.toLowerCase() === v.toLowerCase()) {
               index = i;
               break;
