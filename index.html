@@ -38,7 +38,7 @@
     }
     ]
     // localStorage.setItem("elements", JSON.stringify(destinations))
-    destinations = JSON.parse(localStorage.getItem("elements"))
+    if (JSON.parse(localStorage.getItem("elements"))== null){  destinations = JSON.parse(localStorage.getItem("elements"))}
       elementHTML()
 
       function pushElement(v, d, s, i) {
