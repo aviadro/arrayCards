@@ -37,7 +37,7 @@
         score: 9
     }
     ]
-     localStorage.setItem("elements", JSON.stringify(destinations))
+    // localStorage.setItem("elements", JSON.stringify(destinations))
     destinations = JSON.parse(localStorage.getItem("elements"))
       elementHTML()
 
@@ -45,6 +45,7 @@
         let index = -1;
         for (let i = 0; i < destinations.length; i++) {
           const desti = destinations[i].name
+          console.log (desti)      
           if (desti.toLowerCase() === v.toLowerCase()) {
               index = i;
               break;
