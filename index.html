@@ -7,21 +7,45 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   </head>
   <body>
-    <input id="input" />
-    <button class="btn btn-primary" onclick="pushElement(input.value)">push</button>
+    &nbsp;name:<input id="input" /><br>
+    &nbsp;description:<input id ="desInput"> <br>
+    &nbsp;score:<input id = "scInput"><br>
+    &nbsp;image src: <input id = "imgInput"> <button class="btn btn-primary" onclick="getImg()">or a changing image..</button><br>
+    <button class="btn btn-primary" onclick="pushElement(input.value, desInput.value, scInput.value, imgInput.value)">add</button>
     <button class="btn btn-primary" onclick="popElement()">pop</button>
     <button class="btn btn-primary" onclick="searchElemnt(input.value)">search</button>
+    <button class="btn btn-primary" onclick="sortByScore(input.value)">sort by score</button>
     <br>
     <div id="display" class="row row-cols-1 row-cols-md-2 g-4"></div>
     <script>
-      let ar = ["jerusalem", "tel aviv", "new york", "barcelona"]
+      let destinations = [{
+        name: 'jerusalem',
+        description: 'the capital of israel',
+        piture: "https://theposthostel.com/wp-content/uploads/2021/09/jerusalem.jpg",
+        score: 10
+    },
+    {
+        name: 'washington dc',
+        description: 'the capital of US',
+        piture: "https://cdn.britannica.com/42/93842-050-295D32A0/US-Capitol-place-meeting-Congress-Washington-DC.jpg",
+        score: 8
+    },
+    {
+        name: 'london',
+        description: 'the capital of England',
+        piture: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/33/f5/de/london.jpg?w=1400&h=1400&s=1",
+        score: 9
+    }
+    ]
+    // localStorage.setItem("elements", JSON.stringify(destinations))
+    destinations = JSON.parse(localStorage.getItem("elements"))
       elementHTML()
 
-
-      function pushElement(v) {
+      function pushElement(v, d, s, i) {
         let index = -1;
-        for (let i = 0; i < ar.length; i++) {
-          if (ar[i].toLowerCase() === v.toLowerCase()) {
+        for (let i = 0; i < destinations.length; i++) {
+          const desti = destinations[i].name
+          if (desti.toLowerCase() === v.toLowerCase()) {
               index = i;
               break;
             }
@@ -30,20 +54,22 @@
           alert('nothing entered');
         }
         else if  (index==-1) {
-          ar.push(v)
+          destinations.push({name: v, description:d, score: s, piture:i})
         }
         else {
             input.value = '';
           alert('already in the list');
         }
         elementHTML()
+        localStorage.setItem("elements", JSON.stringify(destinations))
       }
 
 
       function popElement() {
-        ar.pop()
+        destinations.pop()
+        localStorage.setItem("elements", JSON.stringify(destinations))
         elementHTML()
-        if (ar.length == 0) {
+        if (destinations.length == 0) {
           display.innerHTML = 'empty'
         }
       }
@@ -52,13 +78,13 @@
       function searchElemnt(v){
         let finalHTML = ''
         let index = -1;
-        for (let i = 0; i < ar.length; i++) {
-          if (ar[i].toLowerCase().includes(v.toLowerCase())) {
+        for (let i = 0; i < destinations.length; i++) {
+          if (destinations[i].name.toLowerCase().includes(v.toLowerCase())) {
             finalHTML  += `<div class="card" style="width: 18rem;">
-          <img src="https://source.unsplash.com/1600x900/?${ar[i]}" class="card-img-top" alt="${ar[i]}">
+          <img src="${destinations[i].piture}" class="card-img-top" alt="${destinations[i].name}">
           <div class="card-body">
-            <h5 class="card-title">${(i+1)}   ${ar[i]} </h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <h5 class="card-title">${(i+1)}   ${destinations[i].name} </h5>
+            <p class="card-text">${destinations[i].description}<br> score: ${destinations[i].score}</p>
             <a ><button onclick= "deleteThis(${i})" class="btn btn-primary">Delete</button> <button onclick = "updateThis(${i})" class="btn btn-primary">edit</button></a>
           </div>
           </div>`
@@ -71,12 +97,12 @@
             
       function elementHTML(){
         let finalHTML = ''
-        for (i=0; i<ar.length;i++){
+        for (i=0; i<destinations.length;i++){
           finalHTML+= `<div class="card" style="width: 18rem;">
-            <img src="https://source.unsplash.com/1600x900/?${ar[i]}" class="card-img-top" alt="${ar[i]}">
+            <img src="${destinations[i].piture}" class="card-img-top" alt="${destinations[i].name}">
             <div class="card-body">
-              <h5 class="card-title">${(i+1)}   ${ar[i]} </h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <h5 class="card-title">${(i+1)}   ${destinations[i].name} </h5>
+              <p class="card-text">${destinations[i].description}<br> score: ${destinations[i].score}</p>
               <a ><button onclick= "deleteThis(${i})" class="btn btn-primary">Delete</button> <button onclick = "updateThis(${i})" class="btn btn-primary">edit</button></a>
             </div>
           </div>`
@@ -86,13 +112,27 @@
 
 
       function deleteThis(t){
-        ar.splice(t,1)
+        destinations.splice(t,1)
+        localStorage.setItem("elements", JSON.stringify(destinations))
         elementHTML()
       }
       
 
       function updateThis(t){
-        ar[t] = input.value
+        destinations[t].name = input.value
+        destinations[t].description= desInput.value
+        destinations[t].score = scInput.value
+        destinations[t].piture = imgInput.value
+        localStorage.setItem("elements", JSON.stringify(destinations))
+        elementHTML()
+      }
+
+      function getImg(){
+        imgInput.value = `https://source.unsplash.com/1600x900/?${input.value}`
+      }
+
+      function sortByScore(){
+        destinations.sort((a,b)=> b.score - a.score)
         elementHTML()
       }
     </script>
